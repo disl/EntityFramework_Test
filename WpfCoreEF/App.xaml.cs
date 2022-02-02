@@ -3,12 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace WpfCoreEF
@@ -43,10 +37,10 @@ namespace WpfCoreEF
         private void ConfigureServices(IServiceCollection services)
         {
 
-            var conn = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            services.AddDbContext<SchoolContext>(options => options.UseSqlServer());
-
+            var connection_str = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            services.AddDbContext<SchoolContext>(options => options.UseSqlServer(connection_str));
             services.AddTransient(typeof(MainWindow));
+
         }
     }
 }

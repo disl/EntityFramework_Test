@@ -22,9 +22,9 @@ namespace EntityFramework_Test.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Course>();  // .set("Course");
-            modelBuilder.Entity<Enrollment>();
-            modelBuilder.Entity<Student>();
+            modelBuilder.Entity<Course>().ToTable("Course");  // .set("Course");
+            modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
+            modelBuilder.Entity<Student>().ToTable("Student");
 
         
         }
