@@ -44,11 +44,11 @@ namespace WpfCoreEF.Repositories
             return list;
         }
 
-        public void Update(Student Item)
+        public bool Update(Student Item)
         {
             var item_find = db.Students.Find(Item.ID);
 
-            if (item_find == null) return;
+            if (item_find == null) return false;
 
             item_find.LastName = Item.LastName;
             item_find.Enrollments = Item.Enrollments;
@@ -56,6 +56,8 @@ namespace WpfCoreEF.Repositories
             item_find.EnrollmentDate = Item.EnrollmentDate;
 
             db.SaveChanges();
+
+            return true;
         }
     }
 }

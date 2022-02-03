@@ -44,11 +44,11 @@ namespace WpfCoreEF.Repositories
             return list;
         }
 
-        public void Update(Enrollment Item)
+        public bool Update(Enrollment Item)
         {
             var item_find = db.Enrollments.Find(Item.EnrollmentID);
 
-            if (item_find == null) return;
+            if (item_find == null) return false;
 
             item_find.Grade = Item.Grade;
             item_find.StudentID = Item.StudentID;
@@ -57,6 +57,8 @@ namespace WpfCoreEF.Repositories
             item_find.Course = Item.Course;
             item_find.Student = Item.Student;
             db.SaveChanges();
+
+            return true;
         }
     }
 }
