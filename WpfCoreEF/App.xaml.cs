@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using EntityFramework_Test.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -53,6 +55,16 @@ namespace WpfCoreEF
             services.AddTransient(typeof(CoursesWindow));
             services.AddTransient(typeof(StudentWindow));
             services.AddTransient(typeof(MainWindow));
+
+            //services.AddDbContext<SchoolContext>(options =>
+            //{
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+            //        sqlServerOptionsAction: sqlOptions =>
+            //        {
+            //            sqlOptions.EnableRetryOnFailure();
+            //        });
+            //}
+            //);
         }
 
 

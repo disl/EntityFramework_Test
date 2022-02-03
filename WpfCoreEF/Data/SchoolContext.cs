@@ -1,5 +1,6 @@
 ﻿using EntityFramework_Test.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace EntityFramework_Test.Data
 {
@@ -33,18 +34,28 @@ namespace EntityFramework_Test.Data
         {
             string connection_str;
 
-            if (System.Configuration.ConfigurationManager.ConnectionStrings.Count == 0) 
+            if (ConfigurationManager.ConnectionStrings.Count == 0) 
                 return;
 
-            try
-            {
-                connection_str = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            }
-            catch
-            {
-                connection_str = System.Configuration.ConfigurationManager.ConnectionStrings[0].ConnectionString;
-            }
-            optionsBuilder.UseSqlServer(connection_str);
+            //try
+            //{
+                connection_str = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            //}
+            //catch
+            //{
+            //    connection_str = System.Configuration.ConfigurationManager.ConnectionStrings[0].ConnectionString;
+            //}
+
+            //optionsBuilder.UseSqlServer(connection_str);
+
+
+            optionsBuilder.UseSqlServer(connection_str,
+                    sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure();
+                    });
+            
+
         }
     }
 }
