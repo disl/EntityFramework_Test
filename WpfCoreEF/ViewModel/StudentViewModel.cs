@@ -7,16 +7,16 @@ using WpfCoreEF.Repositories;
 
 namespace WpfCoreEF.ViewModel
 {
-    public class CourseViewModel
+    public class StudentViewModel
 	{
 		private ICommand _saveCommand;
 		private ICommand _resetCommand;
 		private ICommand _editCommand;
 		private ICommand _deleteCommand;
-		private CourseRepository _repository;
+		private StudentRepository _repository;
 		
-		private Course _CourseEntity = null;
-		public CourseRecord CourseRecord { get; set; }
+		private Student _StudentEntity = null;
+		public StudentRecord StudentRecord { get; set; }
 
 		public ICommand ResetCommand
 		{
@@ -56,31 +56,31 @@ namespace WpfCoreEF.ViewModel
 			get
 			{
 				if (_deleteCommand == null)
-					_deleteCommand = new RelayCommand(param => DeleteCourse((int)param), null);
+					_deleteCommand = new RelayCommand(param => DeleteStudent((int)param), null);
 
 				return _deleteCommand;
 			}
 		}
 
-		public CourseViewModel()
+		public StudentViewModel()
 		{
-			_CourseEntity = new Course();
-			_repository = new CourseRepository();
-			CourseRecord = new CourseRecord();
+			_StudentEntity = new Student();
+			_repository = new StudentRepository();
+			StudentRecord = new StudentRecord();
 			GetAll();
 		}
 
 		public void ResetData()
 		{
-			CourseRecord.CourseID = 0;
-			CourseRecord.Title = null;
-			CourseRecord.Credits = 0;
-			//CourseRecord.Enrollments = null;
+			StudentRecord.LastName = null;
+			StudentRecord.FirstMidName = null;
+			StudentRecord.EnrollmentDate = null;
+			//StudentRecord.Enrollments = null;
 		}
 
-		public void DeleteCourse(int id)
+		public void DeleteStudent(int id)
 		{
-			if (MessageBox.Show("Confirm delete of this record?", "Course", MessageBoxButton.YesNo)
+			if (MessageBox.Show("Confirm delete of this record?", "Student", MessageBoxButton.YesNo)
 				== MessageBoxResult.Yes)
 			{
 				try
@@ -101,24 +101,24 @@ namespace WpfCoreEF.ViewModel
 
 		public void SaveData()
 		{
-			if (CourseRecord != null)
+			if (StudentRecord != null)
 			{
-				_CourseEntity.CourseID = CourseRecord.CourseID;
-				_CourseEntity.Title = CourseRecord.Title;
-				_CourseEntity.Credits = CourseRecord.Credits;
-				_CourseEntity.Enrollments = CourseRecord.Enrollments;
+				_StudentEntity.LastName = StudentRecord.LastName;
+				_StudentEntity.FirstMidName = StudentRecord.FirstMidName;
+				_StudentEntity.EnrollmentDate = StudentRecord.EnrollmentDate;
+				_StudentEntity.Enrollments = StudentRecord.Enrollments;
 
 				try
 				{
-					if (CourseRecord.CourseID <= 0)
+					if (StudentRecord.ID <= 0)
 					{
-						_repository.Add(_CourseEntity);
+						_repository.Add(_StudentEntity);
 						MessageBox.Show("New record successfully saved.");
 					}
 					else
 					{
-						_CourseEntity.CourseID = CourseRecord.CourseID;
-						_repository.Update(_CourseEntity);
+						_StudentEntity.ID = StudentRecord.ID;
+						_repository.Update(_StudentEntity);
 						MessageBox.Show("Record successfully updated.");
 					}
 				}
@@ -138,23 +138,24 @@ namespace WpfCoreEF.ViewModel
 		{
 			var model = _repository.Get(id);
 
-			CourseRecord.CourseID = model.CourseID;
-			CourseRecord.Title = model.Title;
-			CourseRecord.Credits = model.Credits;
+			StudentRecord.ID = model.ID;
+			StudentRecord.LastName = model.LastName;
+			StudentRecord.FirstMidName = model.FirstMidName;
+			StudentRecord.EnrollmentDate = model.EnrollmentDate;
 
 			//if(model.Enrollments != null)
-			//CourseRecord.Enrollments = model.Enrollments;
+			//StudentRecord.Enrollments = model.Enrollments;
 		}
 
 		public void GetAll()
 		{
-			CourseRecord.CourseRecords = new ObservableCollection<Course>();
-			_repository.GetAll().ForEach(data => CourseRecord.CourseRecords.Add(new Course()
+			StudentRecord.StudentRecords = new ObservableCollection<Student>();
+			_repository.GetAll().ForEach(data => StudentRecord.StudentRecords.Add(new Student()
 			{
-				CourseID = data.CourseID,
-				Title = data.Title,
-				Credits = data.Credits,
-				//Enrollments = data.Enrollments,
+				ID = data.ID,
+			LastName = data.LastName,
+			FirstMidName = data.FirstMidName,
+			EnrollmentDate = data.EnrollmentDate,
 			}));
 		}
 	}

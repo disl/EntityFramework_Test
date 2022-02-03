@@ -5,55 +5,55 @@ using System.Linq;
 
 namespace WpfCoreEF.Repositories
 {
-    public class CourseRepository:IRepository<Course>
+    public class StudentRepository:IRepository<Student>
     {
         SchoolContext db = null;
 
-        public CourseRepository()
+        public StudentRepository()
         {
             db = new SchoolContext();
         }
 
-        public void Add(Course Item)
+        public void Add(Student Item)
         {
             if (Item != null)
             {
-                db.Courses.Add(Item);
+                db.Students.Add(Item);
                 db.SaveChanges();
             }
         }
 
         public void Delete(int id)
         {
-            var item = db.Courses.Find(id);
+            var item = db.Students.Find(id);
             if (item != null)
             {
-                db.Courses.Remove(item);
+                db.Students.Remove(item);
                 db.SaveChanges();
             }
         }
 
-        public Course? Get(int id)
+        public Student? Get(int id)
         {
-            return db.Courses.Find(id); 
+            return db.Students.Find(id); 
         }
 
-        public List<Course> GetAll()
+        public List<Student> GetAll()
         {
-            var list = db.Courses.ToList();
+            var list = db.Students.ToList();
             return list;
         }
 
-        public void Update(Course Item)
+        public void Update(Student Item)
         {
-            var item_find = db.Courses.Find(Item.CourseID);
+            var item_find = db.Students.Find(Item.ID);
 
             if (item_find == null) return;
 
-            item_find.Title = Item.Title;
+            item_find.LastName = Item.LastName;
             item_find.Enrollments = Item.Enrollments;
-            item_find.CourseID = Item.CourseID;
-            item_find.Credits = Item.Credits;
+            item_find.FirstMidName = Item.FirstMidName;
+            item_find.EnrollmentDate = Item.EnrollmentDate;
 
             db.SaveChanges();
         }
