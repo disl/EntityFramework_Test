@@ -8,6 +8,6 @@ namespace WpfCoreEF.Repositories
         T Get(int id);
         List<T> GetAll();
         void Delete(int id);
-        void Update(T Item);
+        bool Update(T Item);
     }
 }

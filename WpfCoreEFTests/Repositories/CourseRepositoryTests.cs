@@ -14,25 +14,6 @@ namespace WpfCoreEF.Repositories.Tests
     {
         private CourseRepository _repository = new CourseRepository ();
 
-        //SchoolContext db = null;
-
-        //public CourseRepository()
-        //{
-        //    db = new SchoolContext();
-        //}
-
-        [TestMethod()]
-        public void CourseRepositoryTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void AddTest()
-        {
-            Assert.Fail();
-        }
-
         [TestMethod()]
         public void DeleteTest()
         {
@@ -42,7 +23,15 @@ namespace WpfCoreEF.Repositories.Tests
         [TestMethod()]
         public void GetTest()
         {
-            Assert.Fail();
+            var list = _repository.GetAll();
+            if(list == null)
+            {
+                Assert.Fail();
+                return;
+            }               
+            var obj = list[0];
+            var find_obj = _repository.Get(obj.CourseID);
+            Assert.IsNotNull(obj);
         }
 
         [TestMethod()]
@@ -55,7 +44,22 @@ namespace WpfCoreEF.Repositories.Tests
         [TestMethod()]
         public void UpdateTest()
         {
-            Assert.Fail();
+            var list = _repository.GetAll();
+            if (list == null)
+            {
+                Assert.Fail();
+                return;
+            }
+            var obj = list[0];
+            
+            // Caching "Credits"
+            var tmp_credits = obj.Credits;
+            obj.Credits = 0;
+            Assert.IsTrue(_repository.Update(obj));
+
+            // Reset "Credits"
+            obj.Credits = tmp_credits;
+            _repository.Update(obj);
         }
     }
 }

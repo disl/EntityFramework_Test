@@ -31,7 +31,19 @@ namespace EntityFramework_Test.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connection_str = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string connection_str;
+
+            if (System.Configuration.ConfigurationManager.ConnectionStrings.Count == 0) 
+                return;
+
+            try
+            {
+                connection_str = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            }
+            catch
+            {
+                connection_str = System.Configuration.ConfigurationManager.ConnectionStrings[0].ConnectionString;
+            }
             optionsBuilder.UseSqlServer(connection_str);
         }
     }

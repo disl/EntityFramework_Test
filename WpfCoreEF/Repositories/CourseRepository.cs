@@ -7,7 +7,7 @@ namespace WpfCoreEF.Repositories
 {
     public class CourseRepository:IRepository<Course>
     {
-        SchoolContext db = null;
+        SchoolContext db;
 
         public CourseRepository()
         {
@@ -44,11 +44,11 @@ namespace WpfCoreEF.Repositories
             return list;
         }
 
-        public void Update(Course Item)
+        public bool Update(Course Item)
         {
             var item_find = db.Courses.Find(Item.CourseID);
 
-            if (item_find == null) return;
+            if (item_find == null) return false;
 
             item_find.Title = Item.Title;
             item_find.Enrollments = Item.Enrollments;
@@ -56,6 +56,8 @@ namespace WpfCoreEF.Repositories
             item_find.Credits = Item.Credits;
 
             db.SaveChanges();
+
+            return true;
         }
     }
 }
