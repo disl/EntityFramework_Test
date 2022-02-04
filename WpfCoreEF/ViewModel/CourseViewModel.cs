@@ -1,4 +1,5 @@
-﻿using EntityFramework_Test.Models;
+﻿using AutoMapper;
+using EntityFramework_Test.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -14,8 +15,20 @@ namespace WpfCoreEF.ViewModel
 		private ICommand _editCommand;
 		private ICommand _deleteCommand;
 		private CourseRepository _repository;
-		
 		private Course _CourseEntity = null;
+
+		MapperConfiguration config = null;
+		Mapper mapper = null;
+public CourseViewModel()
+		{
+			
+
+			_CourseEntity = new Course();
+			_repository = new CourseRepository();
+			CourseRecord = new CourseRecord();
+			GetAll();
+		}
+
 		public CourseRecord CourseRecord { get; set; }
 
 		public ICommand ResetCommand
@@ -62,13 +75,7 @@ namespace WpfCoreEF.ViewModel
 			}
 		}
 
-		public CourseViewModel()
-		{
-			_CourseEntity = new Course();
-			_repository = new CourseRepository();
-			CourseRecord = new CourseRecord();
-			GetAll();
-		}
+		
 
 		public void ResetData()
 		{
@@ -103,23 +110,28 @@ namespace WpfCoreEF.ViewModel
 		{
 			if (CourseRecord != null)
 			{
-				_CourseEntity.CourseID = CourseRecord.CourseID;
-				_CourseEntity.Title = CourseRecord.Title;
-				_CourseEntity.Credits = CourseRecord.Credits;
-				_CourseEntity.Enrollments = CourseRecord.Enrollments;
+				config = new MapperConfiguration(cfg => cfg.CreateMap<CourseRecord, Course>());
+				mapper = new Mapper(config);
 
-				try
+				mapper.Map<CourseRecord, Course>(CourseRecord, _CourseEntity);
+
+                //_CourseEntity.CourseID = CourseRecord.CourseID;
+                //_CourseEntity.Title = CourseRecord.Title;
+                //_CourseEntity.Credits = CourseRecord.Credits;
+                //_CourseEntity.Enrollments = CourseRecord.Enrollments;
+
+                try
 				{
 					if (CourseRecord.CourseID <= 0)
 					{
 						_repository.Add(_CourseEntity);
-						MessageBox.Show("New record successfully saved.");
+						//MessageBox.Show("New record successfully saved.");
 					}
 					else
 					{
 						_CourseEntity.CourseID = CourseRecord.CourseID;
 						_repository.Update(_CourseEntity);
-						MessageBox.Show("Record successfully updated.");
+						//MessageBox.Show("Record successfully updated.");
 					}
 				}
 				catch (Exception ex)
@@ -138,9 +150,12 @@ namespace WpfCoreEF.ViewModel
 		{
 			var model = _repository.Get(id);
 
-			CourseRecord.CourseID = model.CourseID;
-			CourseRecord.Title = model.Title;
-			CourseRecord.Credits = model.Credits;
+			mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Course, CourseRecord>()));
+			mapper.Map<Course, CourseRecord>(model, CourseRecord);
+
+			//CourseRecord.CourseID = model.CourseID;
+			//CourseRecord.Title = model.Title;
+			//CourseRecord.Credits = model.Credits;
 
 			//if(model.Enrollments != null)
 			//CourseRecord.Enrollments = model.Enrollments;
