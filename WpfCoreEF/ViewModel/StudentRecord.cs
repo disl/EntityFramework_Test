@@ -62,6 +62,20 @@ namespace WpfCoreEF.ViewModel
 			}
 		}
 
+		private int _age;
+		public int Age
+		{
+			get
+			{
+				return _age;
+			}
+			set
+			{
+				_age = value;
+				OnPropertyChanged("Age");
+			}
+		}
+
 		private ObservableCollection<Enrollment> _enrollments;
 		public ObservableCollection<Enrollment> Enrollments
 		{

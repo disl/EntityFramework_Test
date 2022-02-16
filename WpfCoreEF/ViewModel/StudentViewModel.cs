@@ -75,6 +75,7 @@ namespace WpfCoreEF.ViewModel
 			StudentRecord.LastName = null;
 			StudentRecord.FirstMidName = null;
 			StudentRecord.EnrollmentDate = null;
+			StudentRecord.Age = 0;
 			//StudentRecord.Enrollments = null;
 		}
 
@@ -107,6 +108,7 @@ namespace WpfCoreEF.ViewModel
 				_StudentEntity.FirstMidName = StudentRecord.FirstMidName;
 				_StudentEntity.EnrollmentDate = StudentRecord.EnrollmentDate;
 				_StudentEntity.Enrollments = StudentRecord.Enrollments;
+				_StudentEntity.Age = StudentRecord.Age;
 
 				try
 				{
@@ -142,6 +144,7 @@ namespace WpfCoreEF.ViewModel
 			StudentRecord.LastName = model.LastName;
 			StudentRecord.FirstMidName = model.FirstMidName;
 			StudentRecord.EnrollmentDate = model.EnrollmentDate;
+			StudentRecord.Age = model.Age;
 
 			//if(model.Enrollments != null)
 			//StudentRecord.Enrollments = model.Enrollments;
@@ -156,6 +159,7 @@ namespace WpfCoreEF.ViewModel
 			LastName = data.LastName,
 			FirstMidName = data.FirstMidName,
 			EnrollmentDate = data.EnrollmentDate,
+				Age = data.Age,
 			}));
 		}
 	}

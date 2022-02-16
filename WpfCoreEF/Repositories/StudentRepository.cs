@@ -54,6 +54,7 @@ namespace WpfCoreEF.Repositories
             item_find.Enrollments = Item.Enrollments;
             item_find.FirstMidName = Item.FirstMidName;
             item_find.EnrollmentDate = Item.EnrollmentDate;
+            item_find.Age = Item.Age;
 
             db.SaveChanges();
 
