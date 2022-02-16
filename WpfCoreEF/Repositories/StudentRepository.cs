@@ -1,4 +1,5 @@
-﻿using EntityFramework_Test.Data;
+﻿using AutoMapper;
+using EntityFramework_Test.Data;
 using EntityFramework_Test.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,14 @@ namespace WpfCoreEF.Repositories
     public class StudentRepository:IRepository<Student>
     {
         SchoolContext db = null;
+        MapperConfiguration config = null;
+        Mapper mapper = null;
 
         public StudentRepository()
         {
             db = new SchoolContext();
+            config = new MapperConfiguration(cfg => cfg.CreateMap<Student, Student>());
+            mapper = new Mapper(config);
         }
 
         public void Add(Student Item)

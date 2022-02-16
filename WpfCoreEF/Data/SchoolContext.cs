@@ -12,9 +12,9 @@ namespace EntityFramework_Test.Data
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Student> Students { get; set; }
 
-        public SchoolContext() : base() 
-        { 
-            DbInitializer.Initialize(this); 
+        public SchoolContext() : base()
+        {
+            DbInitializer.Initialize(this);
         }
 
         //public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
@@ -27,35 +27,23 @@ namespace EntityFramework_Test.Data
         {
             modelBuilder.Entity<Course>().ToTable("Course");
             modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
-            modelBuilder.Entity<Student>().ToTable("Student");            
+            modelBuilder.Entity<Student>().ToTable("Student");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connection_str;
 
-            if (ConfigurationManager.ConnectionStrings.Count == 0) 
+            if (ConfigurationManager.ConnectionStrings.Count == 0)
                 return;
 
-            //try
-            //{
-                connection_str = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            //}
-            //catch
-            //{
-            //    connection_str = System.Configuration.ConfigurationManager.ConnectionStrings[0].ConnectionString;
-            //}
-
-            //optionsBuilder.UseSqlServer(connection_str);
-
+            connection_str = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
             optionsBuilder.UseSqlServer(connection_str,
                     sqlServerOptionsAction: sqlOptions =>
                     {
                         sqlOptions.EnableRetryOnFailure();
                     });
-            
-
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using EntityFramework_Test.Data;
+﻿using AutoMapper;
+using EntityFramework_Test.Data;
 using EntityFramework_Test.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,13 @@ namespace WpfCoreEF.Repositories
     public class EnrollmentRepository:IRepository<Enrollment>
     {
         SchoolContext db = null;
+        MapperConfiguration config = new MapperConfiguration(cfg => cfg.CreateMap<Enrollment, Enrollment>());
+        Mapper mapper = null;
 
         public EnrollmentRepository()
         {
             db = new SchoolContext();
+            mapper = new Mapper(config);
         }
 
         public void Add(Enrollment Item)
@@ -50,12 +54,14 @@ namespace WpfCoreEF.Repositories
 
             if (item_find == null) return false;
 
-            item_find.Grade = Item.Grade;
-            item_find.StudentID = Item.StudentID;
-            item_find.EnrollmentID = Item.EnrollmentID;
-            item_find.CourseID = Item.CourseID;
-            item_find.Course = Item.Course;
-            item_find.Student = Item.Student;
+            mapper.Map<Enrollment, Enrollment>(Item, item_find);
+
+            //item_find.Grade = Item.Grade;
+            //item_find.StudentID = Item.StudentID;
+            //item_find.EnrollmentID = Item.EnrollmentID;
+            //item_find.CourseID = Item.CourseID;
+            //item_find.Course = Item.Course;
+            //item_find.Student = Item.Student;
             db.SaveChanges();
 
             return true;

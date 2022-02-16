@@ -1,4 +1,5 @@
-﻿using EntityFramework_Test.Data;
+﻿using AutoMapper;
+using EntityFramework_Test.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,12 +43,17 @@ namespace WpfCoreEF
             var builder = new ConfigurationBuilder();
 
             Configuration = builder.Build();
-
+            InitializeAutomapper();
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             ServiceProvider = serviceCollection.BuildServiceProvider();
-            var mainWindow = ServiceProvider.GetRequiredService<StudentWindow>();
+            var mainWindow = ServiceProvider.GetRequiredService<StudentWindow>();   //StudentWindow>();
             mainWindow.Show();
+        }
+
+        private void InitializeAutomapper()
+        {
+
         }
 
         private void ConfigureServices(IServiceCollection services)
